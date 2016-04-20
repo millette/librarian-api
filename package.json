@@ -1,0 +1,43 @@
+{
+  "name": "librarian-api",
+  "version": "0.0.0",
+  "description": "Client library for the libraries.io api.",
+  "license": "AGPL-3.0",
+  "repository": "millette/librarian-api",
+  "author": {
+    "name": "Robin Millette",
+    "email": "robin@millette.info",
+    "url": "http://robin.millette.info"
+  },
+  "bin": "cli.js",
+  "engines": {
+    "node": ">=4.3.1"
+  },
+  "scripts": {
+    "test": "standard && nyc ava",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "files": [
+    "index.js",
+    "cli.js"
+  ],
+  "keywords": [
+    "cli-app",
+    "cli",
+    ""
+  ],
+  "dependencies": {
+    "got": "^6.3.0",
+    "meow": "^3.7.0"
+  },
+  "devDependencies": {
+    "ava": "^0.12.0",
+    "babel-eslint": "^6.0.0",
+    "coveralls": "^2.11.9",
+    "nyc": "^6.1.1",
+    "standard": "^6.0.8"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  }
+}
