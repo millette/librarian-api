@@ -52,8 +52,7 @@ test('github projects', async t => {
   t.is(result[0].platform, 'NPM')
 })
 
-test.only('package managers', t => {
+test('package managers', t => {
   const result = Object.keys(fn.packageManagers)
-  // console.log(result.length, result)
   t.is(result.length, 26)
 })
