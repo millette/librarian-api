@@ -41,7 +41,7 @@ const LIBRARIES_IO_TOKEN = process.env['LIBRARIES_IO_TOKEN']
 const LIBRARIES_IO_ENDPOINT = process.env['LIBRARIES_IO_ENDPOINT'] || 'https://libraries.io/api'
 
 // https://raw.githubusercontent.com/librariesio/package-managers/2acbd6cd5eed9d8d9560c42b40ccde0a7571813e/package-managers.json
-exports.packageManagers = require('./package-managers.json')
+exports.packageManagers = require('librarian-package-managers')
 
 const apiMethod = function (method, qs) {
   if (!qs) { qs = {} }

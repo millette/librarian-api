@@ -1,6 +1,6 @@
 {
   "name": "librarian-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Client library for the libraries.io api.",
   "license": "AGPL-3.0",
   "repository": "millette/librarian-api",
@@ -23,11 +23,11 @@
   ],
   "keywords": [
     "cli-app",
-    "cli",
-    ""
+    "cli"
   ],
   "dependencies": {
     "got": "^6.3.0",
+    "librarian-package-managers": "0.0.1",
     "meow": "^3.7.0"
   },
   "devDependencies": {
