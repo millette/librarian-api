@@ -110,4 +110,5 @@ exports.github.projects = function (owner, name) {
   args.unshift('github')
   args.push('projects')
   return apiMethod(args.join('/'))
+    .catch((e) => e.statusCode === 404 ? [] : Promise.reject(e))
 }

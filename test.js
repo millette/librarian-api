@@ -56,3 +56,9 @@ test('package managers', t => {
   const result = Object.keys(fn.packageManagers)
   t.is(result.length, 26)
 })
+
+test.only('github projects 404', async t => {
+  const a = ['kudlaj', 'jamendo-contest']
+  const result = await fn.github.projects(a[0], a[1])
+  t.is(result.length, 0)
+})
