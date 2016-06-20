@@ -1,4 +1,8 @@
-# librarian-api [![Build Status](https://travis-ci.org/millette/librarian-api.svg?branch=master)](https://travis-ci.org/millette/librarian-api) [![Coverage Status](https://coveralls.io/repos/github/millette/librarian-api/badge.svg?branch=master)](https://coveralls.io/github/millette/librarian-api?branch=master)
+# librarian-api
+[![Build Status](https://travis-ci.org/millette/librarian-api.svg?branch=master)](https://travis-ci.org/millette/librarian-api)
+[![Coverage Status](https://coveralls.io/repos/github/millette/librarian-api/badge.svg?branch=master)](https://coveralls.io/github/millette/librarian-api?branch=master)
+[![Dependency Status](https://gemnasium.com/badges/github.com/millette/librarian-api.svg)](https://gemnasium.com/github.com/millette/librarian-api)
+
 > Client library for the libraries.io api.
 
 ## Install
