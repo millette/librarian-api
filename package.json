@@ -27,6 +27,7 @@
   ],
   "dependencies": {
     "got": "^6.3.0",
+    "update-notifier": "^1.0.2",
     "librarian-package-managers": "0.0.1",
     "meow": "^3.7.0"
   },

@@ -22,10 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 'use strict'
-var meow = require('meow')
-var librarianApi = require('./').search
+const meow = require('meow')
+const librarianApi = require('./').search
+const updateNotifier = require('update-notifier')
 
-var cli = meow([
+updateNotifier({ pkg: require('./package.json') }).notify()
+
+const cli = meow([
   'Usage',
   '  $ librarian-api [input]',
   '',
@@ -39,4 +42,5 @@ var cli = meow([
   '  ponies & rainbows'
 ])
 
-console.log(librarianApi(cli.input[0] || 'unicorns'))
+librarianApi(cli.input[0] || 'rollodeqc')
+  .then((x) => { console.log(JSON.stringify(x, null, ' ')) })
