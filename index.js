@@ -29,6 +29,9 @@ For platforms, see <https://github.com/librariesio/package-managers>
 (using 2acbd6cd5eed9d8d9560c42b40ccde0a7571813e)
 */
 
+// environment from .env
+require('dotenv').load()
+
 // core
 const url = require('url')
 
@@ -39,6 +42,12 @@ const got = require('got')
 // export LIBRARIES_IO_TOKEN=d8de9f...
 const LIBRARIES_IO_TOKEN = process.env['LIBRARIES_IO_TOKEN']
 const LIBRARIES_IO_ENDPOINT = process.env['LIBRARIES_IO_ENDPOINT'] || 'https://libraries.io/api'
+
+if (!LIBRARIES_IO_TOKEN) {
+  console.error('LIBRARIES_IO_TOKEN environment variable is required.')
+  console.error('Get one at https://libraries.io/account')
+  process.exit(1)
+}
 
 // https://raw.githubusercontent.com/librariesio/package-managers/2acbd6cd5eed9d8d9560c42b40ccde0a7571813e/package-managers.json
 exports.packageManagers = require('librarian-package-managers')
