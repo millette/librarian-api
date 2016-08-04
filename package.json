@@ -28,6 +28,7 @@
   "dependencies": {
     "got": "^6.3.0",
     "update-notifier": "^1.0.2",
+    "dotenv": "^2.0.0",
     "librarian-package-managers": "0.0.1",
     "meow": "^3.7.0"
   },
@@ -35,7 +36,6 @@
     "ava": "^0.15.2",
     "babel-eslint": "^6.1.0",
     "coveralls": "^2.11.9",
-    "dotenv": "^2.0.0",
     "nyc": "^6.6.1",
     "standard": "^7.1.2"
   },
