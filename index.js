@@ -29,6 +29,9 @@ For platforms, see <https://github.com/librariesio/package-managers>
 (using 2acbd6cd5eed9d8d9560c42b40ccde0a7571813e)
 */
 
+// environment from .env
+require('dotenv').load()
+
 // core
 const url = require('url')
 
