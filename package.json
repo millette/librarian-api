@@ -1,6 +1,6 @@
 {
   "name": "librarian-api",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Client library for the libraries.io api.",
   "license": "AGPL-3.0",
   "repository": "millette/librarian-api",
