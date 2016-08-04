@@ -1,5 +1,9 @@
 /*eslint arrow-parens: [2, "as-needed"]*/
 'use strict'
+
+// environment from .env
+require('dotenv').load()
+
 import test from 'ava'
 import fn from './'
 
