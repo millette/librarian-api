@@ -52,133 +52,150 @@ if (!LIBRARIES_IO_TOKEN) {
 
 const rateLimter = new RLP(10, 10000)
 
+/*
+So...
+
+Query parameters: q, page, per_page, include_prerelease and api_key
+Request options: method (GET, POST, etc.)
+
+*/
+
 const callApi = function (api, options) {
   if (!options) { options = {} }
   if (!options.api_key) { options.api_key = LIBRARIES_IO_TOKEN }
-  let urlObj = url.parse(LIBRARIES_IO_ENDPOINT)
+  const urlObj = url.parse(LIBRARIES_IO_ENDPOINT)
+  const requestOptions = { json: true }
+  if (options.method) {
+    requestOptions.method = options.method
+    delete options.method
+  }
   urlObj.pathname += '/' + api
   urlObj.query = options
   return rateLimter()
-    .then(got.bind(null, url.format(urlObj)))
-    .then((x) => JSON.parse(x.body))
+    .then(got.bind(null, url.format(urlObj), requestOptions))
+    .then((x) => x.body)
+    // .then((x) => JSON.parse(x.body))
 }
 
-exports.search = function (q, options) {
-  if (!options) { options = {} }
-  options.q = q
+exports.search = function (options) {
+  if (typeof options === 'string') { options = { q: options } }
   return callApi('search', options)
 }
 
 exports.platform = function (platform, name, options) {
 // ### Project
 // https://libraries.io/api/:platform/:name
-  return callApi(platform + '/' + name)
+  return callApi(platform + '/' + name, options)
 }
 
 exports.platform.dependencies = function (platform, name, version, options) {
 // ### Project Dependencies
 // https://libraries.io/api/:platform/:name/:version/dependencies
-  const args = Array.prototype.slice.call(arguments)
+  const args = Array.prototype.slice.call(arguments, 0, 3)
   args.push('dependencies')
-  return callApi(args.join('/'))
+  return callApi(args.join('/'), options)
 }
 
 exports.platform.dependents = function (platform, name, options) {
 // ### Project Dependents
 // https://libraries.io/api/:platform/:name/dependents
-  const args = Array.prototype.slice.call(arguments)
+  const args = Array.prototype.slice.call(arguments, 0, 2)
   args.push('dependents')
-  return callApi(args.join('/'))
+  return callApi(args.join('/'), options)
 }
 
 exports.platform.dependent_repositories = function (platform, name, options) {
 // ### Project Dependent Repositories
 // https://libraries.io/api/:platform/:name/dependent_repositories
-  const args = Array.prototype.slice.call(arguments)
+  const args = Array.prototype.slice.call(arguments, 0, 2)
   args.push('dependent_repositories')
-  return callApi(args.join('/'))
+  return callApi(args.join('/'), options)
 }
 
 exports.github = function (owner, name, options) {
 // ### GitHub Repository
 // https://libraries.io/api/github/:owner/:name
-  const args = Array.prototype.slice.call(arguments)
+  const args = Array.prototype.slice.call(arguments, 0, 2)
   args.unshift('github')
-  return callApi(args.join('/'))
+  return callApi(args.join('/'), options)
 }
 
 exports.github.dependencies = function (owner, name, options) {
 // ### GitHub Repository Dependencies
 // https://libraries.io/api/github/:owner/:name/dependencies
-  const args = Array.prototype.slice.call(arguments)
+  const args = Array.prototype.slice.call(arguments, 0, 2)
   args.unshift('github')
   args.push('dependencies')
-  return callApi(args.join('/'))
+  return callApi(args.join('/'), options)
 }
 
 exports.github.projects = function (owner, name, options) {
 // ### GitHub Repository Projects
 // https://libraries.io/api/github/:owner/:name/projects
-  const args = Array.prototype.slice.call(arguments)
+  const args = Array.prototype.slice.call(arguments, 0, 2)
   args.unshift('github')
   args.push('projects')
-  return callApi(args.join('/'))
+  return callApi(args.join('/'), options)
     .catch((e) => e.statusCode === 404 ? [] : Promise.reject(e))
 }
 
 exports.githubUser = function (login, options) {
 // ### GitHub User
 // https://libraries.io/api/github/:login
-  const args = Array.prototype.slice.call(arguments)
+  const args = Array.prototype.slice.call(arguments, 0, 1)
   args.unshift('github')
-  return callApi(args.join('/'))
+  return callApi(args.join('/'), options)
 }
 
 exports.githubUser.repositories = function (login, options) {
 // ### GitHub User Repositories
 // https://libraries.io/api/github/:login/repositories
-  const args = Array.prototype.slice.call(arguments)
+  const args = Array.prototype.slice.call(arguments, 0, 1)
   args.unshift('github')
   args.push('repositories')
-  return callApi(args.join('/'))
+  return callApi(args.join('/'), options)
 }
 
 exports.githubUser.projets = function (login, options) {
 // ### GitHub User Projets
 // https://libraries.io/api/github/:login/projects
-  const args = Array.prototype.slice.call(arguments)
+  const args = Array.prototype.slice.call(arguments, 0, 1)
   args.unshift('github')
   args.push('projects')
-  return callApi(args.join('/'))
+  return callApi(args.join('/'), options)
 }
 
 exports.subscriptions = function (options) {
-  return callApi('subscriptions')
+  return callApi('subscriptions', options)
 }
 
-exports.subscribe = function (platform, name, includePrerelease, options) {
-  const args = Array.prototype.slice.call(arguments)
+exports.subscribe = function (platform, name, options) { // , includePrerelease
+  const args = Array.prototype.slice.call(arguments, 0, 2)
   args.unshift('subscriptions')
-  return callApi(args.join('/'))
+  return callApi(args.join('/'), options)
 }
 
 exports.subscribed = function (platform, name, options) {
-  const args = Array.prototype.slice.call(arguments)
+  const args = Array.prototype.slice.call(arguments, 0, 2)
   args.unshift('subscriptions')
   // GET METHOD!!
-  return callApi(args.join('/'))
+  return callApi(args.join('/'), options)
 }
 
-exports.updateSubscribe = function (platform, name, includePrerelease, options) {
-  const args = Array.prototype.slice.call(arguments)
+exports.updateSubscribe = function (platform, name, options) { // , includePrerelease
+  const args = Array.prototype.slice.call(arguments, 0, 2)
   args.unshift('subscriptions')
   // PUT METHOD!!
-  return callApi(args.join('/'))
+  if (!options) { options = { } }
+  options.method = 'PUT'
+  return callApi(args.join('/'), options)
 }
 
 exports.unsubscribe = function (platform, name, options) {
-  const args = Array.prototype.slice.call(arguments)
+  const args = Array.prototype.slice.call(arguments, 0, 2)
   args.unshift('subscriptions')
   // DELETE METHOD!!
-  return callApi(args.join('/'))
+  if (!options) { options = { } }
+  options.method = 'DELETE'
+  return callApi(args.join('/'), options)
 }
