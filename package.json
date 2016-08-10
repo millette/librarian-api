@@ -26,11 +26,12 @@
     "cli"
   ],
   "dependencies": {
-    "got": "^6.3.0",
-    "update-notifier": "^1.0.2",
     "dotenv": "^2.0.0",
+    "got": "^6.3.0",
     "librarian-package-managers": "0.0.1",
-    "meow": "^3.7.0"
+    "meow": "^3.7.0",
+    "rate-limit-promise": "^1.0.2",
+    "update-notifier": "^1.0.2"
   },
   "devDependencies": {
     "ava": "^0.15.2",

@@ -32,6 +32,7 @@ const url = require('url')
 
 // npm
 const got = require('got')
+const RLP = require('rate-limit-promise')
 // environment from .env
 require('dotenv').load()
 
