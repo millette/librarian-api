@@ -120,3 +120,60 @@ exports.github.projects = function (owner, name, options) {
   return callApi(args.join('/'))
     .catch((e) => e.statusCode === 404 ? [] : Promise.reject(e))
 }
+
+exports.githubUser = function (login, options) {
+// ### GitHub User
+// https://libraries.io/api/github/:login
+  const args = Array.prototype.slice.call(arguments)
+  args.unshift('github')
+  return callApi(args.join('/'))
+}
+
+exports.githubUser.repositories = function (login, options) {
+// ### GitHub User Repositories
+// https://libraries.io/api/github/:login/repositories
+  const args = Array.prototype.slice.call(arguments)
+  args.unshift('github')
+  args.push('repositories')
+  return callApi(args.join('/'))
+}
+
+exports.githubUser.projets = function (login, options) {
+// ### GitHub User Projets
+// https://libraries.io/api/github/:login/projects
+  const args = Array.prototype.slice.call(arguments)
+  args.unshift('github')
+  args.push('projects')
+  return callApi(args.join('/'))
+}
+
+exports.subscriptions = function (options) {
+  return callApi('subscriptions')
+}
+
+exports.subscribe = function (platform, name, includePrerelease, options) {
+  const args = Array.prototype.slice.call(arguments)
+  args.unshift('subscriptions')
+  return callApi(args.join('/'))
+}
+
+exports.subscribed = function (platform, name, options) {
+  const args = Array.prototype.slice.call(arguments)
+  args.unshift('subscriptions')
+  // GET METHOD!!
+  return callApi(args.join('/'))
+}
+
+exports.updateSubscribe = function (platform, name, includePrerelease, options) {
+  const args = Array.prototype.slice.call(arguments)
+  args.unshift('subscriptions')
+  // PUT METHOD!!
+  return callApi(args.join('/'))
+}
+
+exports.unsubscribe = function (platform, name, options) {
+  const args = Array.prototype.slice.call(arguments)
+  args.unshift('subscriptions')
+  // DELETE METHOD!!
+  return callApi(args.join('/'))
+}
