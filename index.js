@@ -24,24 +24,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
 API Docs: https://libraries.io/api
-
-For platforms, see <https://github.com/librariesio/package-managers>
-(using 2acbd6cd5eed9d8d9560c42b40ccde0a7571813e)
+For platforms, see https://github.com/librariesio/package-managers
 */
-
-// environment from .env
-require('dotenv').load()
 
 // core
 const url = require('url')
 
 // npm
 const got = require('got')
+// environment from .env
+require('dotenv').load()
 
 // https://libraries.io/account
 // export LIBRARIES_IO_TOKEN=d8de9f...
-const LIBRARIES_IO_TOKEN = process.env['LIBRARIES_IO_TOKEN']
-const LIBRARIES_IO_ENDPOINT = process.env['LIBRARIES_IO_ENDPOINT'] || 'https://libraries.io/api'
+const LIBRARIES_IO_TOKEN = process.env.LIBRARIES_IO_TOKEN
+const LIBRARIES_IO_ENDPOINT = process.env.LIBRARIES_IO_ENDPOINT || 'https://libraries.io/api'
 
 if (!LIBRARIES_IO_TOKEN) {
   console.error('LIBRARIES_IO_TOKEN environment variable is required.')
@@ -49,75 +46,77 @@ if (!LIBRARIES_IO_TOKEN) {
   process.exit(1)
 }
 
-// https://raw.githubusercontent.com/librariesio/package-managers/2acbd6cd5eed9d8d9560c42b40ccde0a7571813e/package-managers.json
-exports.packageManagers = require('librarian-package-managers')
+// exports.packageManagers = require('librarian-package-managers')
+// const platforms = require('librarian-package-managers')
 
-const apiMethod = function (method, qs) {
-  if (!qs) { qs = {} }
-  if (!qs.api_key) { qs.api_key = LIBRARIES_IO_TOKEN }
+const callApi = function (api, options) {
+  if (!options) { options = {} }
+  if (!options.api_key) { options.api_key = LIBRARIES_IO_TOKEN }
   let urlObj = url.parse(LIBRARIES_IO_ENDPOINT)
-  urlObj.pathname += '/' + method
-  urlObj.query = qs
+  urlObj.pathname += '/' + api
+  urlObj.query = options
   return got(url.format(urlObj)).then((x) => JSON.parse(x.body))
 }
 
-exports.search = function (q) {
-  return apiMethod('search', { q: q })
+exports.search = function (q, options) {
+  if (!options) { options = {} }
+  options.q = q
+  return callApi('search', options)
 }
 
-exports.platform = function (platform, name) {
+exports.platform = function (platform, name, options) {
 // ### Project
 // https://libraries.io/api/:platform/:name
-  return apiMethod(platform + '/' + name)
+  return callApi(platform + '/' + name)
 }
 
-exports.platform.dependencies = function (platform, name, version) {
+exports.platform.dependencies = function (platform, name, version, options) {
 // ### Project Dependencies
 // https://libraries.io/api/:platform/:name/:version/dependencies
   const args = Array.prototype.slice.call(arguments)
   args.push('dependencies')
-  return apiMethod(args.join('/'))
+  return callApi(args.join('/'))
 }
 
-exports.platform.dependents = function (platform, name) {
+exports.platform.dependents = function (platform, name, options) {
 // ### Project Dependents
 // https://libraries.io/api/:platform/:name/dependents
   const args = Array.prototype.slice.call(arguments)
   args.push('dependents')
-  return apiMethod(args.join('/'))
+  return callApi(args.join('/'))
 }
 
-exports.platform.dependent_repositories = function (platform, name) {
+exports.platform.dependent_repositories = function (platform, name, options) {
 // ### Project Dependent Repositories
 // https://libraries.io/api/:platform/:name/dependent_repositories
   const args = Array.prototype.slice.call(arguments)
   args.push('dependent_repositories')
-  return apiMethod(args.join('/'))
+  return callApi(args.join('/'))
 }
 
-exports.github = function (owner, name) {
+exports.github = function (owner, name, options) {
 // ### GitHub Repository
 // https://libraries.io/api/github/:owner/:name
   const args = Array.prototype.slice.call(arguments)
   args.unshift('github')
-  return apiMethod(args.join('/'))
+  return callApi(args.join('/'))
 }
 
-exports.github.dependencies = function (owner, name) {
+exports.github.dependencies = function (owner, name, options) {
 // ### GitHub Repository Dependencies
 // https://libraries.io/api/github/:owner/:name/dependencies
   const args = Array.prototype.slice.call(arguments)
   args.unshift('github')
   args.push('dependencies')
-  return apiMethod(args.join('/'))
+  return callApi(args.join('/'))
 }
 
-exports.github.projects = function (owner, name) {
+exports.github.projects = function (owner, name, options) {
 // ### GitHub Repository Projects
 // https://libraries.io/api/github/:owner/:name/projects
   const args = Array.prototype.slice.call(arguments)
   args.unshift('github')
   args.push('projects')
-  return apiMethod(args.join('/'))
+  return callApi(args.join('/'))
     .catch((e) => e.statusCode === 404 ? [] : Promise.reject(e))
 }
