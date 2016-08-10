@@ -9,6 +9,17 @@
 ```
 $ npm install --save librarian-api
 ```
+
+## New since version 0.2.0
+### Pagination
+Paging is now supported with the ```page``` and ```per_page``` query parameters.
+You can also obtain the raw request response passing the ```raw: true``` option.
+
+Please refer to [test.js](./test.js) for usage examples.
+
+### Rate limits
+All queries are now limited to 10 per 10 seconds.
+
 ## New since version 0.1.0
 The cli now uses [update-notifier][] to let the user know about updates to this program.
 

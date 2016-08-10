@@ -61,10 +61,12 @@ Request options: method (GET, POST, etc.)
 */
 
 const callApi = function (api, options) {
-  if (!options) { options = {} }
+  if (!options) { options = { } }
   if (!options.api_key) { options.api_key = LIBRARIES_IO_TOKEN }
   const urlObj = url.parse(LIBRARIES_IO_ENDPOINT)
   const requestOptions = { json: true }
+  const raw = options.raw
+  delete options.raw
   if (options.method) {
     requestOptions.method = options.method
     delete options.method
@@ -73,8 +75,7 @@ const callApi = function (api, options) {
   urlObj.query = options
   return rateLimter()
     .then(got.bind(null, url.format(urlObj), requestOptions))
-    .then((x) => x.body)
-    // .then((x) => JSON.parse(x.body))
+    .then((x) => raw ? x : x.body)
 }
 
 exports.search = function (options) {

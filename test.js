@@ -2,7 +2,7 @@
 'use strict'
 
 // environment from .env
-require('dotenv').load()
+// require('dotenv').load() // doing it in index.js, is that enough?
 
 import test from 'ava'
 import fn from './'
@@ -10,6 +10,28 @@ import fn from './'
 test('search', async t => {
   const result = await fn.search('rollodeqc')
   t.is(result[0].repository_url.indexOf('https://github.com/millette/'), 0)
+})
+
+test('search paged', async t => {
+  const result = await fn.search({ q: 'rollodeqc', per_page: 5, raw: true })
+  // console.log(result.headers)
+  t.is(result.body.length, 5)
+  t.is(result.body[0].repository_url.indexOf('https://github.com/millette/'), 0)
+
+  const result2 = await fn.search({ q: 'rollodeqc', page: 2, per_page: 5, raw: true })
+  // console.log(result2.headers)
+  t.is(result2.body.length, 5)
+  t.is(result2.body[0].repository_url.indexOf('https://github.com/millette/'), 0)
+
+  const result3 = await fn.search({ q: 'rollodeqc', page: 3, per_page: 5, raw: true })
+  // console.log(result3.headers)
+  t.is(result3.body.length, 4)
+  t.is(result3.body[0].repository_url.indexOf('https://github.com/millette/'), 0)
+})
+
+test('search raw', async t => {
+  const result = await fn.search({ q: 'rollodeqc', raw: true })
+  t.is(result.body[0].repository_url.indexOf('https://github.com/millette/'), 0)
 })
 
 test('npm got', async t => {
@@ -20,9 +42,26 @@ test('npm got', async t => {
   t.is(result.package_manager_url, 'https://www.npmjs.com/package/got')
 })
 
+test('npm got raw', async t => {
+  const result = await fn.platform('npm', 'got', { raw: true })
+  const r2 = result.body
+  // console.log(result.headers)
+
+  t.is(r2.name, 'got')
+  t.is(r2.platform, 'NPM')
+  t.is(r2.repository_url, 'https://github.com/sindresorhus/got')
+  t.is(r2.package_manager_url, 'https://www.npmjs.com/package/got')
+})
+
 test('npm got dependencies', async t => {
   const result = await fn.platform.dependencies('npm', 'got', '6.3.0')
   t.is(result.name, 'got') // FIXME
+})
+
+test('npm got dependencies', async t => {
+  const result = await fn.platform.dependencies('npm', 'got', '6.3.0', { raw: true })
+  // console.log(result.headers)
+  t.is(result.body.name, 'got') // FIXME
 })
 
 test('npm got dependents', async t => {
@@ -54,11 +93,6 @@ test('github projects', async t => {
   t.true(result.length > 0)
   t.is(result[0].name, a[1])
   t.is(result[0].platform, 'NPM')
-})
-
-test.skip('package managers', t => {
-  const result = Object.keys(fn.packageManagers)
-  t.is(result.length, 26)
 })
 
 test('github projects 404', async t => {
