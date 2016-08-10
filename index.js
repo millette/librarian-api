@@ -50,13 +50,17 @@ if (!LIBRARIES_IO_TOKEN) {
 // exports.packageManagers = require('librarian-package-managers')
 // const platforms = require('librarian-package-managers')
 
+const rateLimter = new RLP(10, 10000)
+
 const callApi = function (api, options) {
   if (!options) { options = {} }
   if (!options.api_key) { options.api_key = LIBRARIES_IO_TOKEN }
   let urlObj = url.parse(LIBRARIES_IO_ENDPOINT)
   urlObj.pathname += '/' + api
   urlObj.query = options
-  return got(url.format(urlObj)).then((x) => JSON.parse(x.body))
+  return rateLimter()
+    .then(got.bind(null, url.format(urlObj)))
+    .then((x) => JSON.parse(x.body))
 }
 
 exports.search = function (q, options) {
