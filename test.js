@@ -1,4 +1,3 @@
-/*eslint arrow-parens: [2, "as-needed"]*/
 'use strict'
 
 // environment from .env
@@ -25,7 +24,7 @@ test('search paged', async t => {
 
   const result3 = await fn.search({ q: 'rollodeqc', page: 3, per_page: 5, raw: true })
   // console.log(result3.headers)
-  t.is(result3.body.length, 4)
+  t.is(result3.body.length, 5)
   t.is(result3.body[0].repository_url.indexOf('https://github.com/millette/'), 0)
 })
 

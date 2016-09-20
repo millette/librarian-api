@@ -27,18 +27,18 @@
   ],
   "dependencies": {
     "dotenv": "^2.0.0",
-    "got": "^6.3.0",
-    "librarian-package-managers": "0.0.1",
+    "got": "^6.5.0",
+    "librarian-package-managers": "0.0.2",
     "meow": "^3.7.0",
     "rate-limit-promise": "^1.0.2",
     "update-notifier": "^1.0.2"
   },
   "devDependencies": {
-    "ava": "^0.15.2",
-    "babel-eslint": "^6.1.0",
-    "coveralls": "^2.11.9",
-    "nyc": "^6.6.1",
-    "standard": "^7.1.2"
+    "ava": "^0.16.0",
+    "babel-eslint": "^6.1.2",
+    "coveralls": "^2.11.14",
+    "nyc": "^8.3.0",
+    "standard": "^8.1.0"
   },
   "standard": {
     "parser": "babel-eslint"
