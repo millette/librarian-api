@@ -11,9 +11,10 @@
   },
   "bin": "cli.js",
   "engines": {
-    "node": ">=4.3.1"
+    "node": ">=4"
   },
   "scripts": {
+    "lint": "standard",
     "test": "standard && nyc ava",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },

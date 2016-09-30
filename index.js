@@ -70,7 +70,7 @@ const callApi = function (api, options) {
   console.log('oo:', oo, api)
   if (!options.api_key) { options.api_key = LIBRARIES_IO_TOKEN }
   const urlObj = url.parse(LIBRARIES_IO_ENDPOINT)
-  const requestOptions = {  }
+  const requestOptions = { }
   // const requestOptions = { retries: 10 }
   // const requestOptions = { json: true }
 /*
