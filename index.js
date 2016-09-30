@@ -61,11 +61,19 @@ Request options: method (GET, POST, etc.)
 */
 
 const callApi = function (api, options) {
+  const oo = { }
+  let r
   if (!options) { options = { } }
+  for (r in options) { oo[r] = options[r] }
+  delete options.times
+  if (typeof oo.times === 'undefined') { oo.times = 5 }
+  console.log('oo:', oo, api)
   if (!options.api_key) { options.api_key = LIBRARIES_IO_TOKEN }
   const urlObj = url.parse(LIBRARIES_IO_ENDPOINT)
-  // const requestOptions = { }
+  const requestOptions = {  }
+  // const requestOptions = { retries: 10 }
   // const requestOptions = { json: true }
+/*
   const requestOptions = {
     retries: (retry, error) => {
       console.log('retry:', retry)
@@ -73,6 +81,7 @@ const callApi = function (api, options) {
       return 5000
     }
   }
+*/
   const raw = options.raw
   delete options.raw
   if (options.method) {
@@ -90,7 +99,15 @@ const callApi = function (api, options) {
     .then((x) => raw ? x : JSON.parse(x.body))
     // .then((x) => raw ? x : x.body)
     .catch((e) => {
-      console.log('rejecting with', e)
+      // console.log('rejecting with', e)
+      if (e.statusCode >= 500) {
+        // try again...
+        console.log('try again')
+        if (oo.times) {
+          --oo.times
+          return callApi(api, oo)
+        }
+      }
       return Promise.reject(e)
     })
 }
