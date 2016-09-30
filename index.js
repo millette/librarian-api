@@ -50,7 +50,7 @@ if (!LIBRARIES_IO_TOKEN) {
 // exports.packageManagers = require('librarian-package-managers')
 // const platforms = require('librarian-package-managers')
 
-const rateLimter = new RLP(10, 10000)
+const rateLimter = new RLP(3, 4000)
 
 /*
 So...
@@ -64,7 +64,15 @@ const callApi = function (api, options) {
   if (!options) { options = { } }
   if (!options.api_key) { options.api_key = LIBRARIES_IO_TOKEN }
   const urlObj = url.parse(LIBRARIES_IO_ENDPOINT)
-  const requestOptions = { json: true }
+  // const requestOptions = { }
+  // const requestOptions = { json: true }
+  const requestOptions = {
+    retries: (retry, error) => {
+      console.log('retry:', retry)
+      console.log('error:', error)
+      return 5000
+    }
+  }
   const raw = options.raw
   delete options.raw
   if (options.method) {
@@ -75,7 +83,16 @@ const callApi = function (api, options) {
   urlObj.query = options
   return rateLimter()
     .then(got.bind(null, url.format(urlObj), requestOptions))
-    .then((x) => raw ? x : x.body)
+    .then((x) => {
+      console.log('...', Object.keys(x))
+      return x
+    })
+    .then((x) => raw ? x : JSON.parse(x.body))
+    // .then((x) => raw ? x : x.body)
+    .catch((e) => {
+      console.log('rejecting with', e)
+      return Promise.reject(e)
+    })
 }
 
 exports.search = function (options) {

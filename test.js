@@ -94,7 +94,7 @@ test('github projects', async t => {
   t.is(result[0].platform, 'NPM')
 })
 
-test('github projects 404', async t => {
+test.only('github projects 404', async t => {
   const a = ['kudlaj', 'jamendo-contest']
   const result = await fn.github.projects(a[0], a[1])
   t.is(result.length, 0)
