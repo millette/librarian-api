@@ -34,11 +34,19 @@ const fs = require('fs')
 // npm
 const got = require('got')
 const RLP = require('rate-limit-promise')
-// environment from .env
+const dotenv = require('dotenv')
 
-if (fs.accessSync('./.env')) {
-  require('dotenv').load()
+// console.log('ok...')
+// environment from .env
+try {
+  fs.accessSync('.env', fs.R_OK)
+  // console.log('load!')
+  dotenv.load()
+} catch (e) {
+  // console.log('nope')
 }
+
+// console.log('ok222...')
 
 // https://libraries.io/account
 // export LIBRARIES_IO_TOKEN=d8de9f...
