@@ -29,7 +29,7 @@ For platforms, see https://github.com/librariesio/package-managers
 
 // core
 const url = require('url')
-const fs = require('fs')
+// const fs = require('fs')
 
 // npm
 const got = require('got')
@@ -39,7 +39,7 @@ const dotenv = require('dotenv')
 // console.log('ok...')
 // environment from .env
 try {
-  fs.accessSync('.env', fs.R_OK)
+  // fs.accessSync('.env', fs.R_OK)
   // console.log('load!')
   dotenv.load()
 } catch (e) {
