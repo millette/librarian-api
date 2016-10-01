@@ -61,27 +61,16 @@ Request options: method (GET, POST, etc.)
 */
 
 const callApi = function (api, options) {
+  const REPEATS = 5
   const oo = { }
   let r
   if (!options) { options = { } }
   for (r in options) { oo[r] = options[r] }
   delete options.times
-  if (typeof oo.times === 'undefined') { oo.times = 5 }
-  console.log('oo:', oo, api)
+  if (typeof oo.times === 'undefined') { oo.times = REPEATS }
   if (!options.api_key) { options.api_key = LIBRARIES_IO_TOKEN }
   const urlObj = url.parse(LIBRARIES_IO_ENDPOINT)
   const requestOptions = { }
-  // const requestOptions = { retries: 10 }
-  // const requestOptions = { json: true }
-/*
-  const requestOptions = {
-    retries: (retry, error) => {
-      console.log('retry:', retry)
-      console.log('error:', error)
-      return 5000
-    }
-  }
-*/
   const raw = options.raw
   delete options.raw
   if (options.method) {
@@ -92,24 +81,13 @@ const callApi = function (api, options) {
   urlObj.query = options
   return rateLimter()
     .then(got.bind(null, url.format(urlObj), requestOptions))
-    .then((x) => {
-      console.log('...', Object.keys(x))
-      return x
-    })
     .then((x) => raw ? x : JSON.parse(x.body))
-    // .then((x) => raw ? x : x.body)
-    .catch((e) => {
-      // console.log('rejecting with', e)
-      if (e.statusCode >= 500) {
-        // try again...
-        console.log('try again')
-        if (oo.times) {
-          --oo.times
-          return callApi(api, oo)
-        }
-      }
-      return Promise.reject(e)
-    })
+    .catch((e) => new Promise((resolve, reject) =>
+      setTimeout(() => {
+        if (e.statusCode >= 500 && --oo.times) { return resolve(callApi(api, oo)) }
+        reject(e)
+      }, Math.pow(2, (2 + REPEATS - oo.times)) * (11000 - Math.random() * 2000))
+    ))
 }
 
 exports.search = function (options) {
