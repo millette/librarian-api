@@ -29,12 +29,16 @@ For platforms, see https://github.com/librariesio/package-managers
 
 // core
 const url = require('url')
+const fs = require('fs')
 
 // npm
 const got = require('got')
 const RLP = require('rate-limit-promise')
 // environment from .env
-require('dotenv').load()
+
+if (fs.accessSync('./.env')) {
+  require('dotenv').load()
+}
 
 // https://libraries.io/account
 // export LIBRARIES_IO_TOKEN=d8de9f...
