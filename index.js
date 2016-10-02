@@ -93,7 +93,10 @@ const callApi = function (api, options) {
   urlObj.query = options
   return rateLimter()
     .then(got.bind(null, url.format(urlObj), requestOptions))
-    .then((x) => raw ? x : JSON.parse(x.body))
+    .then((x) => {
+      x.body = JSON.parse(x.body)
+      return raw ? x : x.body
+    })
     .catch((e) => new Promise((resolve, reject) =>
       setTimeout(() => {
         if (e.statusCode >= 500 && --oo.times) { return resolve(callApi(api, oo)) }
