@@ -2,7 +2,7 @@
 /*
 Client library for the libraries.io api.
 
-Copyright 2016 Robin Millette
+Copyright 2016-2019 Robin Millette
 http://robin.millette.info/
 robin@millette.info
 
