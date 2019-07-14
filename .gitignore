@@ -2,3 +2,4 @@ node_modules
 .nyc_output
 npm-debug.log
 .env
+librarian-api.code-workspace
