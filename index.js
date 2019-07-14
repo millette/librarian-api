@@ -1,7 +1,7 @@
 /*
 Client library for the libraries.io api.
 
-Copyright 2016 Robin Millette
+Copyright 2016-2019 Robin Millette
 http://robin.millette.info/
 robin@millette.info
 
@@ -28,7 +28,8 @@ For platforms, see https://github.com/librariesio/package-managers
 */
 
 // core
-const url = require('url')
+// const url = require('url')
+const { URL, URLSearchParams } = require('url')
 // const fs = require('fs')
 
 // npm
@@ -81,7 +82,8 @@ const callApi = function (api, options) {
   delete options.times
   if (typeof oo.times === 'undefined') { oo.times = REPEATS }
   if (!options.api_key) { options.api_key = LIBRARIES_IO_TOKEN }
-  const urlObj = url.parse(LIBRARIES_IO_ENDPOINT)
+  // const urlObj = url.parse(LIBRARIES_IO_ENDPOINT)
+  const urlObj2 = new URL(LIBRARIES_IO_ENDPOINT)
   const requestOptions = { }
   const raw = options.raw
   delete options.raw
@@ -89,10 +91,15 @@ const callApi = function (api, options) {
     requestOptions.method = options.method
     delete options.method
   }
-  urlObj.pathname += '/' + api
-  urlObj.query = options
+  // urlObj.pathname += '/' + api
+  urlObj2.pathname += '/' + api
+  // urlObj.query = options
+  urlObj2.search = new URLSearchParams(options)
+  console.log('urlObj2', urlObj2)
+
   return rateLimter()
-    .then(got.bind(null, url.format(urlObj), requestOptions))
+    // .then(got.bind(null, url.format(urlObj), requestOptions))
+    .then(got.bind(null, urlObj2, requestOptions))
     .then((x) => {
       x.body = JSON.parse(x.body)
       return raw ? x : x.body
