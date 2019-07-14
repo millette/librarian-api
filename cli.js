@@ -28,19 +28,19 @@ const updateNotifier = require('update-notifier')
 
 updateNotifier({ pkg: require('./package.json') }).notify()
 
-const cli = meow([
-  'Usage',
-  '  $ librarian-api [input]',
-  '',
-  'Options',
-  '  --foo  Lorem ipsum. [Default: false]',
-  '',
-  'Examples',
-  '  $ librarian-api',
-  '  unicorns & rainbows',
-  '  $ librarian-api ponies',
-  '  ponies & rainbows'
-])
+const cli = meow(`
+  Usage
+    $ librarian-api [input]
+
+  Options
+    --foo  Lorem ipsum. [Default: false]
+
+  Examples
+    $ librarian-api
+    unicorns & rainbows
+    $ librarian-api ponies
+    ponies & rainbows
+`)
 
 librarianApi(cli.input[0] || 'rollodeqc')
   .then((x) => { console.log(JSON.stringify(x, null, ' ')) })
