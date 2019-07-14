@@ -95,7 +95,7 @@ const callApi = function (api, options) {
   urlObj2.pathname += '/' + api
   // urlObj.query = options
   urlObj2.search = new URLSearchParams(options)
-  console.log('urlObj2', urlObj2)
+  // console.log('urlObj2', urlObj2)
 
   return rateLimter()
     // .then(got.bind(null, url.format(urlObj), requestOptions))
