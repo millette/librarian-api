@@ -42,7 +42,7 @@ const dotenv = require('dotenv')
 try {
   // fs.accessSync('.env', fs.R_OK)
   // console.log('load!')
-  dotenv.load()
+  dotenv.config()
 } catch (e) {
   // console.log('nope')
 }
@@ -82,8 +82,7 @@ const callApi = function (api, options) {
   delete options.times
   if (typeof oo.times === 'undefined') { oo.times = REPEATS }
   if (!options.api_key) { options.api_key = LIBRARIES_IO_TOKEN }
-  // const urlObj = url.parse(LIBRARIES_IO_ENDPOINT)
-  const urlObj2 = new URL(LIBRARIES_IO_ENDPOINT)
+  const urlObj = new URL(LIBRARIES_IO_ENDPOINT)
   const requestOptions = { }
   const raw = options.raw
   delete options.raw
@@ -91,15 +90,11 @@ const callApi = function (api, options) {
     requestOptions.method = options.method
     delete options.method
   }
-  // urlObj.pathname += '/' + api
-  urlObj2.pathname += '/' + api
-  // urlObj.query = options
-  urlObj2.search = new URLSearchParams(options)
-  // console.log('urlObj2', urlObj2)
+  urlObj.pathname += '/' + api
+  urlObj.search = new URLSearchParams(options)
 
   return rateLimter()
-    // .then(got.bind(null, url.format(urlObj), requestOptions))
-    .then(got.bind(null, urlObj2, requestOptions))
+    .then(got.bind(null, urlObj, requestOptions))
     .then((x) => {
       x.body = JSON.parse(x.body)
       return raw ? x : x.body
