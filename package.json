@@ -35,7 +35,7 @@
     "update-notifier": "^3.0.1"
   },
   "devDependencies": {
-    "ava": "^0.18.2",
+    "ava": "^2.2.0",
     "coveralls": "^2.11.16",
     "nyc": "^10.1.2",
     "standard": "^13.0.2"
