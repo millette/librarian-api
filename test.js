@@ -44,12 +44,12 @@ test('npm got raw', async t => {
   t.is(r2.package_manager_url, 'https://www.npmjs.com/package/got')
 })
 
-test('npm got dependencies', async t => {
+test('npm got dependencies (1)', async t => {
   const result = await fn.platform.dependencies('npm', 'got', '6.3.0')
   t.is(result.name, 'got') // FIXME
 })
 
-test('npm got dependencies', async t => {
+test('npm got dependencies (2)', async t => {
   const result = await fn.platform.dependencies('npm', 'got', '6.3.0', { raw: true })
   t.is(result.body.name, 'got') // FIXME
 })
