@@ -27,7 +27,7 @@
     "cli"
   ],
   "dependencies": {
-    "dotenv": "^8.0.0",
+    "dotenv": "^8.1.0",
     "got": "^9.6.0",
     "librarian-package-managers": "0.0.2",
     "meow": "^5.0.0",
