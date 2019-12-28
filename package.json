@@ -28,7 +28,7 @@
   ],
   "dependencies": {
     "dotenv": "^8.2.0",
-    "got": "^9.6.0",
+    "got": "^10.2.0",
     "librarian-package-managers": "0.0.2",
     "meow": "^6.0.0",
     "rate-limit-promise": "^1.0.2",
