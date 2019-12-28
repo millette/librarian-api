@@ -32,7 +32,7 @@
     "librarian-package-managers": "0.0.2",
     "meow": "^5.0.0",
     "rate-limit-promise": "^1.0.2",
-    "update-notifier": "^3.0.1"
+    "update-notifier": "^4.0.0"
   },
   "devDependencies": {
     "ava": "^2.4.0",
