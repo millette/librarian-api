@@ -30,7 +30,7 @@
     "dotenv": "^8.2.0",
     "got": "^9.6.0",
     "librarian-package-managers": "0.0.2",
-    "meow": "^5.0.0",
+    "meow": "^6.0.0",
     "rate-limit-promise": "^1.0.2",
     "update-notifier": "^4.0.0"
   },
